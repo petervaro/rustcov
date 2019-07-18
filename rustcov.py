@@ -29,11 +29,6 @@ def executable_name():
 
 
 #------------------------------------------------------------------------------#
-def build_tests():
-    run_command('cargo', 'test', '--no-run')
-
-
-#------------------------------------------------------------------------------#
 def find_latest_test_build():
     directory = 'target/debug'
     pattern = compile(rf"^{executable_name()}-[a-fA-F0-9]+$")
