@@ -4,7 +4,7 @@
 
 from re import compile, match
 from subprocess import run, CalledProcessError, PIPE
-from os import listdir as list_dir
+from os import environ, listdir as list_dir
 from os.path import getmtime as modified
 
 from toml import load
@@ -15,11 +15,18 @@ class FailedCommand(Exception): pass
 
 
 #------------------------------------------------------------------------------#
-def run_command(*command):
+def run_command(*command, env=None):
     try:
-        run(command, check=True, stderr=PIPE)
+        run(command, check=True, stderr=PIPE, env=env)
     except CalledProcessError as error:
         raise FailedCommand(error.stderr) from None
+
+
+#------------------------------------------------------------------------------#
+def compile_tests():
+    env = environ.copy()
+    env.update({'RUSTFLAGS': '-Clink_dead_code'})
+    run_command('cargo', 'test', '--no-run', env=env)
 
 
 #------------------------------------------------------------------------------#
@@ -57,5 +64,9 @@ def open_report():
 
 #------------------------------------------------------------------------------#
 if __name__ == '__main__':
+    print('Compiling tests...')
+    compile_tests()
+    print('Generating coverage report...')
     generate_coverage()
+    print('Opening report...')
     open_report()
