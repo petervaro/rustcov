@@ -51,9 +51,11 @@ def find_latest_test_build():
 
 #------------------------------------------------------------------------------#
 def generate_coverage():
+    directory = 'target/coverage'
+    run_command('rm', '-rf', directory)
     run_command('kcov', '--verify',
                         '--include-path=src',
-                        'target/coverage',
+                        directory,
                         find_latest_test_build())
 
 
