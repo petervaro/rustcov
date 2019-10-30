@@ -6,6 +6,7 @@ from re import compile, match
 from subprocess import run, CalledProcessError, PIPE
 from os import environ, listdir as list_dir
 from os.path import getmtime as modified
+from sys import argv
 
 from toml import load
 
@@ -70,5 +71,8 @@ if __name__ == '__main__':
     compile_tests()
     print('Generating coverage report...')
     generate_coverage()
-    print('Opening report...')
-    open_report()
+
+    _, *arguments = argv
+    if '--no-browser' not in arguments:
+        print('Opening report...')
+        open_report()
