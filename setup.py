@@ -7,7 +7,7 @@ from distutils.core import setup
 
 copyfile('rustcov.py', 'rustcov')
 setup(name='rustcov',
-      version='1.0',
+      version='1.1',
       description='Small script to generate and open kcov coverage report',
       author='Peter Varo',
       author_email='hello@petervaro.com',
